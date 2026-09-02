@@ -709,3 +709,23 @@ PHASE 1 — PROJECT SETUP & ENVIRONMENT
 2. [ ] Create client directory with Vite + React
 3. [ ] Set up PostgreSQL database with PostGIS spatial extension enabled
 4. [ ] Configure environment variables and test API connectivity
+
+---
+
+# 🔄 Project Flow Chart
+
+```mermaid
+flowchart TD
+    A["👤 User Opens App"] --> B["📍 Detect Location (GPS / Locality Fallback)"]
+    B --> C["🎯 Select Radius (5 km / 10 km)"]
+    C --> D["📡 Load Hyperlocal Feed (PostGIS Query)"]
+    
+    D --> E{"User Action"}
+    
+    E -->|"Create Post / Alert"| F["✍️ Publish Location-Tagged Post"]
+    F --> G["🗄️ Save to PostGIS (Point + TTL)"]
+    G --> H["⚡ Real-Time Geofenced Broadcast to Nearby Users"]
+    
+    E -->|"Interact / Verify"| I["✅ Confirm or 🚩 Report Post"]
+    I --> J["🛡️ Update Trust Score / Trigger Mod Queue"]
+```
