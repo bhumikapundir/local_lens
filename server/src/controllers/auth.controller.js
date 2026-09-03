@@ -18,7 +18,7 @@ const COOKIE_OPTIONS = {
  * @route   POST /api/auth/register
  * @access  Public
  */
-export const register = asyncHandler(async (req, res) => {
+const register = asyncHandler(async (req, res) => {
   const { name, email, password, role } = req.body;
 
   // 1. Check if user with this email already exists
@@ -70,7 +70,7 @@ export const register = asyncHandler(async (req, res) => {
  * @route   POST /api/auth/login
  * @access  Public
  */
-export const login = asyncHandler(async (req, res) => {
+const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
   // 1. Fetch user by email
@@ -122,7 +122,7 @@ export const login = asyncHandler(async (req, res) => {
  * @route   GET /api/auth/me
  * @access  Private (Authenticated users only)
  */
-export const getCurrentUser = asyncHandler(async (req, res) => {
+  const getCurrentUser = asyncHandler(async (req, res) => {
   return res.status(200).json(
     new ApiResponse(200, req.user, 'User profile retrieved successfully')
   );
@@ -133,7 +133,7 @@ export const getCurrentUser = asyncHandler(async (req, res) => {
  * @route   POST /api/auth/logout
  * @access  Private
  */
-export const logout = asyncHandler(async (req, res) => {
+const logout = asyncHandler(async (req, res) => {
   res.clearCookie('token', {
     httpOnly: COOKIE_OPTIONS.httpOnly,
     secure: COOKIE_OPTIONS.secure,
@@ -144,3 +144,11 @@ export const logout = asyncHandler(async (req, res) => {
     new ApiResponse(200, null, 'User logged out successfully')
   );
 });
+
+
+export{
+  register,
+  login,
+  getCurrentUser,
+  logout
+}
