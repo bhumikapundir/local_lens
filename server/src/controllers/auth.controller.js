@@ -6,6 +6,13 @@ import { ApiError } from '../../utils/ApiError.js';
 import { ApiResponse } from '../../utils/ApiResponse.js';
 import { asyncHandler } from '../../utils/asyncHandler.js';
 
+const COOKIE_OPTIONS = {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === 'production',
+  sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+  maxAge: 7 * 24 * 60 * 60 * 1000,
+};
+
 /**
  * @desc    Register a new user
  * @route   POST /api/auth/register
@@ -44,12 +51,14 @@ export const register = asyncHandler(async (req, res) => {
     role: newUser.role,
   });
 
+  // 5. Set HTTP-Only Cookie
+  res.cookie('token', token, COOKIE_OPTIONS);
+
   return res.status(201).json(
     new ApiResponse(
       201,
       {
         user: newUser,
-        token,
       },
       'User registered successfully'
     )
@@ -91,7 +100,10 @@ export const login = asyncHandler(async (req, res) => {
     role: user.role,
   });
 
-  // 4. Remove password hash from response
+  // 4. Set HTTP-Only Cookie
+  res.cookie('token', token, COOKIE_OPTIONS);
+
+  // 5. Remove password hash from response
   const { password_hash, ...userProfile } = user;
 
   return res.status(200).json(
@@ -99,7 +111,6 @@ export const login = asyncHandler(async (req, res) => {
       200,
       {
         user: userProfile,
-        token,
       },
       'Login successful'
     )
@@ -118,11 +129,17 @@ export const getCurrentUser = asyncHandler(async (req, res) => {
 });
 
 /**
- * @desc    Log out current user (stateless token acknowledgment)
+ * @desc    Log out current user (clears HTTP-only token cookie)
  * @route   POST /api/auth/logout
  * @access  Private
  */
 export const logout = asyncHandler(async (req, res) => {
+  res.clearCookie('token', {
+    httpOnly: COOKIE_OPTIONS.httpOnly,
+    secure: COOKIE_OPTIONS.secure,
+    sameSite: COOKIE_OPTIONS.sameSite,
+});
+
   return res.status(200).json(
     new ApiResponse(200, null, 'User logged out successfully')
   );
