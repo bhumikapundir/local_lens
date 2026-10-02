@@ -1,9 +1,9 @@
-// Role Authorization Middleware: restricts access to endpoints based on user roles (USER, MODERATOR, ADMIN).
+// Role Authorization Middleware: restricts access to endpoints based on user roles (USER, MODERATOR).
 import { ApiError } from '../../utils/ApiError.js';
 
 /**
  * Authorize only users with specified roles.
- * @param {...string} allowedRoles - List of authorized roles ('USER', 'MODERATOR', 'ADMIN')
+ * @param {...string} allowedRoles - List of authorized roles ('USER', 'MODERATOR')
  */
 export const authorizeRoles = (...allowedRoles) => {
   return (req, res, next) => {

@@ -6,7 +6,7 @@ CREATE EXTENSION IF NOT EXISTS postgis;
 
 -- 2. Define Enum Types
 DO $$ BEGIN
-    CREATE TYPE user_role AS ENUM ('USER', 'MODERATOR', 'ADMIN');
+    CREATE TYPE user_role AS ENUM ('USER', 'MODERATOR');
 EXCEPTION
     WHEN duplicate_object THEN null;
 END $$;

@@ -20,8 +20,8 @@ export const registerSchema = Joi.object({
     'string.empty': 'Password cannot be empty',
     'any.required': 'Password is required',
   }),
-  role: Joi.string().valid('USER', 'MODERATOR', 'ADMIN').default('USER').messages({
-    'any.only': 'Role must be either USER, MODERATOR, or ADMIN',
+  role: Joi.string().valid('USER', 'MODERATOR').default('USER').messages({
+    'any.only': 'Role must be either USER or MODERATOR',
   }),
 });
 
