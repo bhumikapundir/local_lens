@@ -4,7 +4,9 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
+import cookieParser from 'cookie-parser';
 import healthRoutes from './routes/health.routes.js';
+import authRoutes from './routes/auth.routes.js';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
 
 const app = express();
@@ -19,6 +21,7 @@ app.use(
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 if (process.env.NODE_ENV !== 'test') {
   app.use(morgan('dev'));
@@ -35,6 +38,7 @@ app.get('/', (req, res) => {
 
 // API Routes
 app.use('/api', healthRoutes);
+app.use('/api/auth', authRoutes);
 
 // Catch 404 & Global Error Handling
 app.use(notFoundHandler);
