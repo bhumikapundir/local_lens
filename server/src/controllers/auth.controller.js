@@ -19,7 +19,7 @@ const COOKIE_OPTIONS = {
  * @access  Public
  */
 const register = asyncHandler(async (req, res) => {
-  const { name, email, password, role } = req.body;
+  const { name, email, password} = req.body;
 
   // 1. Check if user with this email already exists
   const existingUserCheck = await pool.query(
@@ -36,13 +36,13 @@ const register = asyncHandler(async (req, res) => {
   const passwordHash = await bcrypt.hash(password, salt);
 
   // 3. Insert user into database
-  const insertQuery = `
-    INSERT INTO users (name, email, password_hash, role)
-    VALUES ($1, $2, $3, COALESCE($4::user_role, 'USER'::user_role))
+    const insertQuery = `
+    INSERT INTO users (name, email, password_hash)
+    VALUES ($1, $2, $3)
     RETURNING id, name, email, role, reputation_score, is_verified, created_at, updated_at;
   `;
-  const result = await pool.query(insertQuery, [name, email, passwordHash, role || 'USER']);
-  const newUser = result.rows[0];
+  const result = await pool.query(insertQuery, [name, email, passwordHash]);
+    const newUser = result.rows[0];
 
   // 4. Generate JWT
   const token = generateToken({
