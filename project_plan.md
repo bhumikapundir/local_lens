@@ -79,7 +79,7 @@ The project follows a phased **MVP-first approach** grouped into four clear rele
 
 The first working version must include:
 - [ ] User registration, login, and JWT-based authentication
-- [ ] Role-Based Access Control (`USER`, `MODERATOR`, `ADMIN`)
+- [ ] Role-Based Access Control (`USER`, `MODERATOR`)
 - [ ] Geolocation detection with permission handling & manual locality fallback
 - [ ] 5 km & 10 km radius toggle
 - [ ] Location-tagged post creation with category tagging
@@ -215,7 +215,7 @@ Implement secure JWT-based authentication with role-based access control (`USER`
 
 ### User Database Schema
 ```sql
-CREATE TYPE user_role AS ENUM ('USER', 'MODERATOR', 'ADMIN');
+CREATE TYPE user_role AS ENUM ('USER', 'MODERATOR');
 
 CREATE TABLE users (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
