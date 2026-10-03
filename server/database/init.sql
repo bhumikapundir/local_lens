@@ -135,7 +135,7 @@ AFTER INSERT ON reports
 FOR EACH ROW
 EXECUTE FUNCTION handle_new_report();
 
---8. 1. Auto-update updated_at on every UPDATE
+--8  Auto-update updated_at on every UPDATE
 CREATE OR REPLACE FUNCTION set_updated_at()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -156,6 +156,28 @@ BEFORE UPDATE ON posts
 FOR EACH ROW
 EXECUTE FUNCTION set_updated_at();
 
--- 2. Extra indexes for the feed and "my posts"
+--  Extra indexes for the feed and "my posts"
 CREATE INDEX IF NOT EXISTS idx_posts_expires_at ON posts(expires_at);
 CREATE INDEX IF NOT EXISTS idx_posts_user_id ON posts(user_id);
+
+-- 9. Reset reports when a flagged post is approved 
+CREATE OR REPLACE FUNCTION reset_reports_on_approve()
+RETURNS TRIGGER AS $$
+BEGIN
+  IF OLD.status = 'FLAGGED' AND NEW.status = 'ACTIVE' THEN
+    NEW.reports_count = 0;
+
+    UPDATE reports
+    SET status = 'RESOLVED_DISMISSED',
+        reviewed_at = CURRENT_TIMESTAMP
+    WHERE post_id = NEW.id AND status = 'PENDING';
+  END IF;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS trg_posts_reset_reports ON posts;
+CREATE TRIGGER trg_posts_reset_reports
+BEFORE UPDATE ON posts
+FOR EACH ROW
+EXECUTE FUNCTION reset_reports_on_approve();
