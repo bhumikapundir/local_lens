@@ -2,16 +2,18 @@
 import { ApiError } from '../../utils/ApiError.js';
 
 /**
- * Higher-order middleware that validates req.body against a Joi schema.
+ * Higher-order middleware that validates request data against a Joi schema.
  * @param {import('joi').ObjectSchema} schema 
+ * @param {'body' | 'query' | 'params'} [source='body'] - Request object property to validate
  */
-export const validate = (schema) => {
+export const validate = (schema, source = 'body') => {
   return (req, res, next) => {
-    const { error, value } = schema.validate(req.body, {
+    const dataToValidate = req[source] || {};
+    const { error, value } = schema.validate(dataToValidate, {
       abortEarly: false,
       stripUnknown: true,
     });
-
+    
     if (error) {
       const errorDetails = error.details.map((detail) => ({
         field: detail.path.join('.'),
@@ -22,8 +24,9 @@ export const validate = (schema) => {
       return next(new ApiError(400, primaryMessage, errorDetails));
     }
 
-    // Replace req.body with sanitized/validated value
-    req.body = value;
+    // Replace target source with sanitized/validated value
+    req[source] = value;
     next();
   };
 };
+

@@ -7,6 +7,7 @@ import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import healthRoutes from './routes/health.routes.js';
 import authRoutes from './routes/auth.routes.js';
+import postRoutes from './routes/post.routes.js';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
 
 const app = express();
@@ -39,6 +40,7 @@ app.get('/', (req, res) => {
 // API Routes
 app.use('/api', healthRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/posts', postRoutes);
 
 // Catch 404 & Global Error Handling
 app.use(notFoundHandler);
