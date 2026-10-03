@@ -134,3 +134,28 @@ CREATE TRIGGER trg_report_inserted
 AFTER INSERT ON reports
 FOR EACH ROW
 EXECUTE FUNCTION handle_new_report();
+
+--8. 1. Auto-update updated_at on every UPDATE
+CREATE OR REPLACE FUNCTION set_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = CURRENT_TIMESTAMP;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS trg_users_updated_at ON users;
+CREATE TRIGGER trg_users_updated_at
+BEFORE UPDATE ON users
+FOR EACH ROW
+EXECUTE FUNCTION set_updated_at();
+
+DROP TRIGGER IF EXISTS trg_posts_updated_at ON posts;
+CREATE TRIGGER trg_posts_updated_at
+BEFORE UPDATE ON posts
+FOR EACH ROW
+EXECUTE FUNCTION set_updated_at();
+
+-- 2. Extra indexes for the feed and "my posts"
+CREATE INDEX IF NOT EXISTS idx_posts_expires_at ON posts(expires_at);
+CREATE INDEX IF NOT EXISTS idx_posts_user_id ON posts(user_id);
