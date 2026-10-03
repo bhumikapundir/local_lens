@@ -112,3 +112,25 @@ CREATE TABLE IF NOT EXISTS post_verifications (
 );
 
 CREATE INDEX IF NOT EXISTS idx_post_verifications_post ON post_verifications(post_id);
+
+-- 7. Auto-flag trigger: update reports_count and flag a post after 3 unique reports
+CREATE OR REPLACE FUNCTION handle_new_report()
+RETURNS TRIGGER AS $$
+BEGIN
+  UPDATE posts
+  SET reports_count = reports_count + 1,
+      status = CASE
+        WHEN status = 'ACTIVE' AND reports_count + 1 >= 3 THEN 'FLAGGED'::post_status
+        ELSE status
+      END,
+      updated_at = CURRENT_TIMESTAMP
+  WHERE id = NEW.post_id;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS trg_report_inserted ON reports;
+CREATE TRIGGER trg_report_inserted
+AFTER INSERT ON reports
+FOR EACH ROW
+EXECUTE FUNCTION handle_new_report();
