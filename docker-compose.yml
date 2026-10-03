@@ -23,7 +23,7 @@ services:
     container_name: local_lens_adminer
     restart: always
     ports:
-      - "8080:8080"
+      - "8081:8080"
     depends_on:
       - postgres
 
