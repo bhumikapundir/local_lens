@@ -1,0 +1,61 @@
+.home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: var(--space-6) 0;
+}
+
+.home-icon {
+    color: var(--primary);
+    margin-bottom: var(--space-4);
+}
+
+.home h1 {
+    font-size: clamp(1.75rem, 5vw, 2.75rem);
+    max-width: 600px;
+}
+
+.home-subtitle {
+    color: var(--text-muted);
+    margin-top: var(--space-3);
+    max-width: 480px;
+}
+
+.home-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+    margin-top: var(--space-5);
+}
+
+.home-welcome {
+    width: 100%;
+    color: var(--text-muted);
+}
+
+.home-btn {
+    padding: var(--space-3) var(--space-5);
+    border-radius: var(--radius-full);
+    font-weight: 600;
+}
+
+.home-btn:hover {
+    text-decoration: none;
+}
+
+.home-btn-primary {
+    background: var(--primary);
+    color: var(--on-primary);
+}
+
+.home-btn-primary:hover {
+    background: var(--primary-hover);
+}
+
+.home-btn-secondary {
+    border: 1px solid var(--border);
+    color: var(--text);
+}

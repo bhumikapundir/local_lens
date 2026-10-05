@@ -1,0 +1,76 @@
+:root {
+    /* ---------- Dark theme (default) ---------- */
+    --bg: #0f172a;
+    /* पूरे पेज का पीछे का रंग */
+    --surface: #1e293b;
+    /* cards का रंग */
+    --surface-2: #273449;
+    /* थोड़ा हल्का (hover, inputs) */
+    --border: #334155;
+    /* रेखाएँ */
+    --text: #f1f5f9;
+    /* मुख्य text */
+    --text-muted: #94a3b8;
+    /* हल्का text (time, distance) */
+
+    --primary: #3b82f6;
+    /* मुख्य button का रंग */
+    --primary-hover: #2563eb;
+    --on-primary: #ffffff;
+    /* primary button के ऊपर का text */
+
+    /* ---------- Category रंग ---------- */
+    --cat-alert: #ef4444;
+    /* लाल */
+    --cat-traffic: #f59e0b;
+    /* amber */
+    --cat-news: #3b82f6;
+    /* नीला */
+    --cat-event: #a855f7;
+    /* बैंगनी */
+    --cat-announcement: #06b6d4;
+    /* cyan */
+    --cat-lost-found: #ec4899;
+    /* गुलाबी */
+    --cat-community: #22c55e;
+    /* हरा */
+
+    /* ---------- Status रंग ---------- */
+    --success: #10b981;
+    /* emerald (verified) */
+    --danger: #ef4444;
+    --warning: #f59e0b;
+
+    /* ---------- Spacing (दूरी) ---------- */
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 24px;
+    --space-6: 32px;
+
+    /* ---------- गोलाई और परछाई ---------- */
+    --radius-sm: 6px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-full: 999px;
+    --shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+
+    /* ---------- Fonts ---------- */
+    --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-heading: 'Outfit', 'Inter', system-ui, sans-serif;
+
+    --transition: 0.2s ease;
+}
+
+/* ---------- Light theme ----------
+   <html data-theme="light"> लगाने पर ये मान ऊपर वालों को बदल देंगे */
+[data-theme='light'] {
+    --bg: #f8fafc;
+    --surface: #ffffff;
+    --surface-2: #f1f5f9;
+    --border: #e2e8f0;
+    --text: #0f172a;
+    --text-muted: #64748b;
+    --shadow: 0 4px 16px rgba(15, 23, 42, 0.08);
+}
