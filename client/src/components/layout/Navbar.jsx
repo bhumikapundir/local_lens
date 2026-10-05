@@ -25,7 +25,7 @@ function Navbar() {
             <div className="navbar-links">
                 <NavLink to="/feed">Feed</NavLink>
 
-                {/* loading के दौरान कुछ मत दिखाओ, ताकि Login/Logout झपके नहीं */}
+                
                 {!loading && user && (
                     <>
                         <span className="navbar-user">

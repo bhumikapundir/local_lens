@@ -11,12 +11,10 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route element={<Layout />}>
-          {/* सबके लिए खुले पेज */}
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 
-          {/* सिर्फ़ logged in users के लिए */}
           <Route element={<ProtectedRoute />}>
             <Route path="/feed" element={<Feed />} />
           </Route>

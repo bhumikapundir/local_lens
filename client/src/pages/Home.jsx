@@ -14,7 +14,6 @@ function Home() {
                 Discover verified local news, events and alerts within 5-10 km of you.
             </p>
 
-            {/* loading के दौरान बटन मत दिखाओ, ताकि झपकें नहीं */}
             {!loading && (
                 <div className="home-actions">
                     {user ? (

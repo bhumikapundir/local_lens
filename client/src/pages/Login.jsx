@@ -20,14 +20,14 @@ function Login() {
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault(); // prevent page reload
+        e.preventDefault(); 
         setError('');
         setFieldErrors({});
         setSubmitting(true);
 
         try {
             await login(form);
-            navigate(redirectTo, { replace: true }); // ← यही बदला है
+            navigate(redirectTo, { replace: true }); 
         } catch (err) {
             setError(err.message);
             const map = {};
